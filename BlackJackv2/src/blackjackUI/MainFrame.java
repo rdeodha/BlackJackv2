@@ -33,7 +33,7 @@ public class MainFrame extends JFrame {
     private boolean roundOver = false;
     private int deckCritNum = 130;
     
-    public MainFrame(String title, AI diff) {
+    public MainFrame(String title, AI diff, String name) {
         super(title);
         setLayout(new BorderLayout());
         JButton hit = new JButton("Hit");
@@ -42,7 +42,7 @@ public class MainFrame extends JFrame {
         stay.setPreferredSize(new Dimension(100, 20));
         Container c = getContentPane();
         
-        User user = new User("Name Here");
+        User user = new User(name);
         Dealer dealer = new Dealer(diff);
         this.user = user;
         this.dealer = dealer;

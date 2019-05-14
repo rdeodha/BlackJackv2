@@ -30,6 +30,15 @@ public class cardPanelGrid extends JPanel {
     public void paintComponent(Graphics g) {      
         super.paintComponent(g);
         
+        
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+        g.setColor(Color.WHITE);
+        g.drawString(user.getName(), 20, 100);    
+        
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+        g.setColor(Color.WHITE);
+        g.drawString("Dealer", 20, 320);
+       
         String userTot = "Total: " + user.getTotal();
         g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
         g.setColor(new Color(255, 255, 255));

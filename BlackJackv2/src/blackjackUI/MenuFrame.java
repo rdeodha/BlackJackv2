@@ -1,6 +1,7 @@
 package blackjackUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -29,37 +30,49 @@ public class MenuFrame extends JFrame {
         Container c = getContentPane();
         
         JPanel buttons = new JPanel();
+        buttons.setBackground(new Color(30, 109, 62));
         buttons.add(normal);
         buttons.add(hard);
         
         c.add(buttons, BorderLayout.NORTH);
         
         JTextField nameField = new JTextField();
-        nameField.setName("Name: ");
-        c.add(nameField, BorderLayout.CENTER);
+        nameField.setText("Name: ");
+        c.add(nameField, BorderLayout.SOUTH);
         
-        
+        MenuGrid men = new MenuGrid();
+        c.add(men, BorderLayout.CENTER);
         
         normal.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                startMain(new Normal());
+                String name = nameField.getText();
+                if (name.equals("")) {
+                    name = "User";
+                }
+                startMain(new Normal(), name);
             }
         });
         
         hard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                startMain(new Hard());
+                
+                String name = nameField.getText();
+                if (name.equals("")) {
+                    name = "User";
+                }
+                
+                startMain(new Hard(), name);
             }
         });
     }
     
-    public void startMain(AI diff) {
+    public void startMain(AI diff, String name) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JFrame frame = new MainFrame("BlackJack", diff);
+                JFrame frame = new MainFrame("BlackJack", diff, name);
                 frame.setSize(640, 480);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setResizable(false);

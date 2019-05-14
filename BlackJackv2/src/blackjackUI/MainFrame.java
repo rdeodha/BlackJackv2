@@ -20,16 +20,16 @@ import javax.swing.JPanel;
 import ai.Normal;
 import card.Card;
 import player.Dealer;
-import player.Player;
 import player.User;
 
 public class MainFrame extends JFrame {
    
     private static final long serialVersionUID = 1L;
-    private Player user = new User("Rushi");
-    private Player dealer = new Dealer(new Normal());
     private Random randCard = new Random();
     private LinkedList<Card> deck = new LinkedList<Card>();
+    private User user;
+    private Dealer dealer;
+    private cardPanelGrid cardSpace;
     
     public MainFrame(String title) {
         super(title);
@@ -40,19 +40,86 @@ public class MainFrame extends JFrame {
         stay.setPreferredSize(new Dimension(100, 20));
         Container c = getContentPane();
         
+        User user = new User("Rushi");
+        Dealer dealer = new Dealer(new Normal());
+        this.user = user;
+        this.dealer = dealer;
+        
         JPanel buttons = new JPanel();
         buttons.add(hit);
         buttons.add(stay);
         buttons.setBackground(new Color(30, 109, 62));
         c.add(buttons, BorderLayout.NORTH);    
         
-        cardPanelGrid cardSpace = new cardPanelGrid();
+        cardPanelGrid cardSpace = new cardPanelGrid(dealer, user);
+        this.cardSpace = cardSpace;
         cardSpace.setBackground(new Color(30, 109, 62));
         c.add(cardSpace);
         
         
         generateDeck();
+        dealCards();
         
+        stay.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (user.busted()) {
+                    cardSpace.reset();
+                    user.reset();
+                    dealer.reset();
+                    dealCards();
+                    hit.setEnabled(true);
+                    stay.setText("Stay");
+                }
+                
+            }
+
+        });
+        
+        hit.addActionListener(new ActionListener() {
+        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Card car = deck.remove((randCard.nextInt(deck.size())));
+                user.addCard(car);
+                String path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
+                
+                //BUG TESTING
+                System.out.println("\n" + car);
+                System.out.println("User Tot: " + user.getTotal());
+                
+                if (user.busted()) {
+                    hit.setEnabled(false);
+                    stay.setText("Play Again!");
+                }                
+                
+                BufferedImage i = null;
+                try {
+                    i = ImageIO.read(new File(path));
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                cardSpace.addUser(i);
+            }
+            
+        });
+        
+    }
+
+    private void generateDeck() {
+        for (int k = 1; k < 6; k++) {
+            for (int i = 1; i < 5; i++) {
+                for (int j = 1; j < 14; j++) {
+                    deck.add(new Card(i, j));
+                }
+            }
+        }
+        
+    }
+    
+    private void dealCards() {
         for (int i = 0; i < 2; i++) {
             Card car = deck.remove(randCard.nextInt(deck.size()));
             String path;
@@ -87,45 +154,6 @@ public class MainFrame extends JFrame {
             cardSpace.addUser(im);
             
         }
-        
-        
-        hit.addActionListener(new ActionListener() {
-        
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Card car = deck.remove((randCard.nextInt(deck.size())));
-                user.addCard(car);
-                String path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
-                
-                if (user.busted()) {
-                    hit.setEnabled(false);
-                }
-                
-                
-                BufferedImage i = null;
-                try {
-                    i = ImageIO.read(new File(path));
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                cardSpace.addUser(i);
-            }
-            
-        });
-        
-    }
-
-    private void generateDeck() {
-        for (int k = 1; k < 6; k++) {
-            for (int i = 1; i < 5; i++) {
-                for (int j = 1; j < 14; j++) {
-                    deck.add(new Card(i, j));
-                }
-            }
-            System.out.println("Deck number " + k + " loaded...");
-        }
-        
     }
     
 }

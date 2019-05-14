@@ -59,6 +59,7 @@ public class User implements Player{
                 if (cards.get(i).getName() == 1 && cards.get(i).getAce11()) {
                     total -= 10;
                     cards.get(i).falseAce11();
+                    bust = false;
                     break;
                 }
             }

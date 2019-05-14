@@ -138,7 +138,7 @@ public class cardPanelGrid extends JPanel {
         repaint();
     }
     
-    public void addDealer(BufferedImage i) {       
+    public void addDealer(BufferedImage i) {           
         dealerCards.add(i);
         repaint();
     }

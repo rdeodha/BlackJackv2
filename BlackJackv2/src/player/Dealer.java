@@ -100,4 +100,7 @@ public class Dealer implements Player{
         return bust;
     }
 
+    public void setDiff(AI diff) {
+        this.difficulty = diff;
+    }
 }

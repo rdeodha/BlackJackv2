@@ -17,7 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import ai.Normal;
+import ai.AI;
 import card.Card;
 import player.Dealer;
 import player.User;
@@ -33,7 +33,7 @@ public class MainFrame extends JFrame {
     private boolean roundOver = false;
     private int deckCritNum = 130;
     
-    public MainFrame(String title) {
+    public MainFrame(String title, AI diff) {
         super(title);
         setLayout(new BorderLayout());
         JButton hit = new JButton("Hit");
@@ -42,8 +42,8 @@ public class MainFrame extends JFrame {
         stay.setPreferredSize(new Dimension(100, 20));
         Container c = getContentPane();
         
-        User user = new User("Rushi");
-        Dealer dealer = new Dealer(new Normal());
+        User user = new User("Name Here");
+        Dealer dealer = new Dealer(diff);
         this.user = user;
         this.dealer = dealer;
         
@@ -60,7 +60,8 @@ public class MainFrame extends JFrame {
         
         
         generateDeck();
-        dealCards();
+        dealCards();      
+        checkBJ(hit, stay);
         
         stay.addActionListener(new ActionListener() {
 
@@ -74,6 +75,7 @@ public class MainFrame extends JFrame {
                     hit.setEnabled(true);
                     stay.setText("Stay");
                     roundOver = false;
+                    checkBJ(hit, stay);
                 } else {
                     hit.setEnabled(false);
                     
@@ -126,17 +128,22 @@ public class MainFrame extends JFrame {
         });
         
         hit.addActionListener(new ActionListener() {
-        
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {              
                 Card car = deck.remove((randCard.nextInt(deck.size())));
                 user.addCard(car);
+                checkBJ(hit, stay);
                 String path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
                 
                 if (user.busted()) {
                     hit.setEnabled(false);
                     stay.setText("Play Again!");
-                }                
+                }
+                
+                if (user.getTotal() == 21) {
+                    hit.setEnabled(false);
+                    stay.setText("BlackJack!");
+                }
                 
                 BufferedImage i = null;
                 try {
@@ -200,8 +207,14 @@ public class MainFrame extends JFrame {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-            cardSpace.addUser(im);
-            
+            cardSpace.addUser(im);            
+        }
+    }
+    
+    private void checkBJ(JButton hit, JButton stay) {
+        if (user.getTotal() == 21) {
+            hit.setEnabled(false);
+            stay.setText("BlackJack!");
         }
     }
     

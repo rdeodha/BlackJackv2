@@ -12,6 +12,7 @@ public class BlackJack {
                 JFrame frame = new MenuFrame("BlackJack Menu");
                 frame.setSize(300, 300);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setLocationRelativeTo(null);
                 frame.setResizable(false);
                 frame.setVisible(true);
             }

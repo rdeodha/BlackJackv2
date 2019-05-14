@@ -83,6 +83,7 @@ public class MenuFrame extends JFrame {
                 JFrame frame = new MainFrame("BlackJack", diff, name);
                 frame.setSize(640, 480);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setLocationRelativeTo(null);
                 frame.setResizable(false);
                 frame.setVisible(true);
             }

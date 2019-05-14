@@ -47,8 +47,8 @@ public class Dealer implements Player{
         return hidden;
     }
     
-    public boolean turn(Card c) {
-        return difficulty.hit(this, c);
+    public boolean turn(Card c, int toBeat) {
+        return difficulty.hit(this, c, toBeat);
     }
     
     @Override
@@ -80,6 +80,7 @@ public class Dealer implements Player{
                 if (cards.get(i).getName() == 1 && cards.get(i).getAce11()) {
                     total -= 10;
                     cards.get(i).falseAce11();
+                    bust = false;
                     break;
                 }
             }

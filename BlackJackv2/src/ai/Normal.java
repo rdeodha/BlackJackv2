@@ -6,7 +6,11 @@ import player.Dealer;
 public class Normal implements AI{
 
     @Override
-    public boolean hit(Dealer dealer, Card c) {
+    public boolean hit(Dealer dealer, Card c, int toBeat) {
+        if (dealer.getTotal() > toBeat) {
+            return false;
+        }
+        
         if (dealer.getTotal() < 17) {
             return true;
         } else if (dealer.getTotal() > 17) {

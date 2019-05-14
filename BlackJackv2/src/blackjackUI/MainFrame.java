@@ -30,6 +30,8 @@ public class MainFrame extends JFrame {
     private User user;
     private Dealer dealer;
     private cardPanelGrid cardSpace;
+    private boolean roundOver = false;
+    private int deckCritNum = 130;
     
     public MainFrame(String title) {
         super(title);
@@ -64,13 +66,66 @@ public class MainFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (user.busted()) {
+                if (user.busted() || roundOver) {
                     cardSpace.reset();
                     user.reset();
                     dealer.reset();
                     dealCards();
                     hit.setEnabled(true);
                     stay.setText("Stay");
+                    roundOver = false;
+                } else {
+                    hit.setEnabled(false);
+                    
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    
+                    Card car = dealer.showHidden();
+                    String path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
+                    
+                    BufferedImage i = null;
+                    try {
+                        i = ImageIO.read(new File(path));
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    cardSpace.revealDealer(i);
+                    
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e2) {
+                        // TODO Auto-generated catch block
+                        e2.printStackTrace();
+                    }
+                    
+                    car = deck.remove((randCard.nextInt(deck.size())));
+                    path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
+                    while (dealer.turn(car, user.getTotal())) {
+                        
+                        dealer.addCard(car);
+                        
+                        i = null;
+                        try {
+                            i = ImageIO.read(new File(path));
+                        } catch (IOException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                        cardSpace.addDealer(i);
+                        
+                        car = deck.remove((randCard.nextInt(deck.size())));
+                        path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
+                        
+                    }
+                    
+                    stay.setText("Play Again!");
+                    roundOver = true;
+                    cardSpace.winner();
                 }
                 
             }
@@ -85,10 +140,6 @@ public class MainFrame extends JFrame {
                 user.addCard(car);
                 String path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
                 
-                //BUG TESTING
-                System.out.println("\n" + car);
-                System.out.println("User Tot: " + user.getTotal());
-                
                 if (user.busted()) {
                     hit.setEnabled(false);
                     stay.setText("Play Again!");
@@ -102,6 +153,11 @@ public class MainFrame extends JFrame {
                     e1.printStackTrace();
                 }
                 cardSpace.addUser(i);
+                
+                if (deck.size() <= deckCritNum) {
+                    deck.clear();
+                    generateDeck();
+                }
             }
             
         });

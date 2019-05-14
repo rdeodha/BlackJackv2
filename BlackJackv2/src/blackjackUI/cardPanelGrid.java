@@ -15,6 +15,7 @@ public class cardPanelGrid extends JPanel {
     private ArrayList<BufferedImage> dealerCards;   
     private Player dealer;
     private Player user;
+    private boolean gameOver = false;
     
     private static final long serialVersionUID = 1L;
     
@@ -29,18 +30,6 @@ public class cardPanelGrid extends JPanel {
     public void paintComponent(Graphics g) {      
         super.paintComponent(g);
         
-        if (user.busted()) {
-            g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-            g.setColor(new Color(255, 255, 255));
-            g.drawString("Busted!", 530, 70);
-        }
-        
-        if (dealer.busted()) {
-            g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-            g.setColor(new Color(255, 255, 255));
-            g.drawString("Busted!", 530, 370);
-        }
-        
         String userTot = "Total: " + user.getTotal();
         g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
         g.setColor(new Color(255, 255, 255));
@@ -51,6 +40,17 @@ public class cardPanelGrid extends JPanel {
         g.setColor(new Color(255, 255, 255));
         g.drawString(dealerTot, 500, 280);
         
+        if (user.busted()) {
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+            g.setColor(new Color(255, 255, 255));
+            g.drawString("Busted!", 530, 70);
+        }
+        
+        if (dealer.busted()) {
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+            g.setColor(new Color(255, 255, 255));
+            g.drawString("Busted!", 530, 370);
+        }       
         
         for (int i = 0; i < 6; i++) {
             g.setColor(Color.BLACK);
@@ -97,6 +97,40 @@ public class cardPanelGrid extends JPanel {
             }
         }
         
+        if (gameOver) {
+            if (dealer.busted()) {
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+                g.setColor(new Color(255, 255, 255));
+                g.drawString("Winner", 530, 70); 
+            } else if (dealer.getTotal() > user.getTotal()) {
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+                g.setColor(new Color(255, 255, 255));
+                g.drawString("Winner", 530, 370);
+                
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+                g.setColor(new Color(255, 255, 255));
+                g.drawString("Loser", 530, 70);
+                
+            } else if (dealer.getTotal() < user.getTotal()){
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+                g.setColor(new Color(255, 255, 255));
+                g.drawString("Winner", 530, 70);
+                
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+                g.setColor(new Color(255, 255, 255));
+                g.drawString("Loser", 530, 370);
+            } else {
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+                g.setColor(new Color(255, 255, 255));
+                g.drawString("Tied", 530, 70);
+                
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+                g.setColor(new Color(255, 255, 255));
+                g.drawString("Tied", 530, 370);
+            }
+            
+            
+        }
     }
     
     public void addUser(BufferedImage i) {      
@@ -113,11 +147,19 @@ public class cardPanelGrid extends JPanel {
         dealerCards.remove(0);
         dealerCards.add(0, i);
         repaint();
+        
+        
     }
     
     public void reset() {
         userCards.clear();
         dealerCards.clear();
+        gameOver = false;
+        repaint();
+    }
+    
+    public void winner() {
+        gameOver = true;
         repaint();
     }
 

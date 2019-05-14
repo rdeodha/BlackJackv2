@@ -6,7 +6,11 @@ import player.Dealer;
 public class Hard implements AI{
 
     @Override
-    public boolean hit(Dealer dealer, Card c) {
+    public boolean hit(Dealer dealer, Card c, int toBeat) {
+        if (dealer.getTotal() > toBeat) {
+            return false;
+        }
+        
         int value;
         
         if (c.getName() > 10) {

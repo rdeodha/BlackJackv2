@@ -5,5 +5,5 @@ import player.Dealer;
 
 public interface AI {
 
-    public boolean hit(Dealer dealer, Card c);
+    public boolean hit(Dealer dealer, Card c, int toBeat);
 }

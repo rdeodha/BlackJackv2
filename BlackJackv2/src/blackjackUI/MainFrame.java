@@ -96,13 +96,6 @@ public class MainFrame extends JFrame {
                     }
                     cardSpace.revealDealer(i);
                     
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e2) {
-                        // TODO Auto-generated catch block
-                        e2.printStackTrace();
-                    }
-                    
                     car = deck.remove((randCard.nextInt(deck.size())));
                     path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
                     while (dealer.turn(car, user.getTotal())) {

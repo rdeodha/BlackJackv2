@@ -37,7 +37,6 @@ public class MenuFrame extends JFrame {
         c.add(buttons, BorderLayout.NORTH);
         
         JTextField nameField = new JTextField();
-        nameField.setText("Name: ");
         c.add(nameField, BorderLayout.SOUTH);
         
         MenuGrid men = new MenuGrid();
@@ -49,7 +48,12 @@ public class MenuFrame extends JFrame {
                 String name = nameField.getText();
                 if (name.equals("")) {
                     name = "User";
+                } else if (name.length() > 7) {
+                    String newName = name.substring(0, 7);
+                    newName = newName + "...";
+                    name = newName;
                 }
+           
                 startMain(new Normal(), name);
             }
         });
@@ -61,6 +65,10 @@ public class MenuFrame extends JFrame {
                 String name = nameField.getText();
                 if (name.equals("")) {
                     name = "User";
+                } else if (name.length() > 7) {
+                    String newName = name.substring(0, 7);
+                    newName = newName + "...";
+                    name = newName;
                 }
                 
                 startMain(new Hard(), name);

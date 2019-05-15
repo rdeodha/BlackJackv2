@@ -142,7 +142,7 @@ public class MainFrame extends JFrame {
                 
                 if (user.getTotal() == 21) {
                     hit.setEnabled(false);
-                    stay.setText("BlackJack!");
+                    stay.setText("Black Jack!");
                 }
                 
                 BufferedImage i = null;
@@ -214,7 +214,7 @@ public class MainFrame extends JFrame {
     private void checkBJ(JButton hit, JButton stay) {
         if (user.getTotal() == 21) {
             hit.setEnabled(false);
-            stay.setText("BlackJack!");
+            stay.setText("Black Jack!");
         }
     }
     

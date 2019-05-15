@@ -156,8 +156,7 @@ public class cardPanelGrid extends JPanel {
         dealerCards.remove(0);
         dealerCards.add(0, i);
         repaint();
-        
-        
+                
     }
     
     public void reset() {

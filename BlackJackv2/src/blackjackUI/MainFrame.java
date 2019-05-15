@@ -79,13 +79,6 @@ public class MainFrame extends JFrame {
                 } else {
                     hit.setEnabled(false);
                     
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                    
                     Card car = dealer.showHidden();
                     String path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
                     
@@ -165,7 +158,7 @@ public class MainFrame extends JFrame {
     }
 
     private void generateDeck() {
-        for (int k = 1; k < 6; k++) {
+        for (int k = 1; k < 2; k++) {
             for (int i = 1; i < 5; i++) {
                 for (int j = 1; j < 14; j++) {
                     deck.add(new Card(i, j));

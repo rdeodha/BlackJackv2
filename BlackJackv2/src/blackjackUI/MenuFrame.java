@@ -26,13 +26,16 @@ public class MenuFrame extends JFrame {
         JButton normal = new JButton("Normal");
         normal.setPreferredSize(new Dimension(100, 100));
         JButton hard = new JButton("Hard");
-        hard.setPreferredSize(new Dimension(100, 100));
+        hard.setPreferredSize(new Dimension(100, 100));  
+        JButton help = new JButton("?");
+        help.setPreferredSize(new Dimension(20, 20));
         Container c = getContentPane();
         
         JPanel buttons = new JPanel();
         buttons.setBackground(new Color(30, 109, 62));
         buttons.add(normal);
         buttons.add(hard);
+        buttons.add(help);
         
         c.add(buttons, BorderLayout.NORTH);
         
@@ -41,6 +44,16 @@ public class MenuFrame extends JFrame {
         
         MenuGrid men = new MenuGrid();
         c.add(men, BorderLayout.CENTER);
+        
+        help.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                helpFrame();              
+            }
+            
+        });
+        
         
         normal.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -82,6 +95,21 @@ public class MenuFrame extends JFrame {
             public void run() {
                 JFrame frame = new MainFrame("BlackJack", diff, name);
                 frame.setSize(640, 480);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setLocationRelativeTo(null);
+                frame.setResizable(false);
+                frame.setVisible(true);
+            }
+            
+        });
+    }
+    
+    public void helpFrame() {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new HelpFrame("BlackJack Help");
+                frame.setSize(500, 500);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLocationRelativeTo(null);
                 frame.setResizable(false);

@@ -93,8 +93,9 @@ public class MainFrame extends JFrame {
                     
                     car = deck.remove((randCard.nextInt(deck.size())));
                     path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
+                    
+                    
                     while (dealer.turn(car, user.getTotal())) {
-                        
                         dealer.addCard(car);
                         
                         i = null;
@@ -108,7 +109,6 @@ public class MainFrame extends JFrame {
                         
                         car = deck.remove((randCard.nextInt(deck.size())));
                         path = "images/" + Integer.toString(car.getName()) + Integer.toString(car.getSuit()) + ".png";
-                        
                     }
                     
                     stay.setText("Play Again!");
